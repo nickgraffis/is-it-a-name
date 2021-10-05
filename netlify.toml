@@ -18,3 +18,9 @@ to = '/index.html'
 [dev]
 autoLaunch = false
 command = "npm run dev"
+
+[[headers]]
+  # Define which paths this specific [[headers]] block will cover.
+  for = "/api/*"
+    [headers.values]
+    Access-Control-Allow-Origin = "*"
