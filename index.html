@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Is It A Name</title>
+    <!-- When the petite-vue is mounted, show the content. -->
+    <script>
+      const mounted = () => document.querySelector('#content').classList.remove('hidden')
+    </script>
+  </head>
+  <body v-scope v-effect="oninit()" class="dark:bg-gray-800" @mounted="mounted">
+    <script type="module">
+      import 'virtual:windi.css'
+      import { createApp } from 'https://unpkg.com/petite-vue?module'
+
+      /**
+       * Create the vue app
+       * Set up variables that will be used
+       * Set up methods that can be used
+       */
+      createApp({
+        loading: false,
+        name: '',
+        nameResponse: '',
+
+        //Fetch vin data
+        checkName(){
+          this.loading = true
+          fetch(`/api/i?name=${encodeURIComponent(this.name)}`)
+            .then((res) => res.json())
+            .then((data) => {
+              this.loading = false
+              this.nameResponse = data
+          })
+        },
+
+        //Check for user color preference
+        checkColorScheme() {
+          const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+          const setting = localStorage.getItem('color-schema') || 'auto'
+          if (setting === 'dark' || (prefersDark && setting !== 'light'))
+            document.documentElement.classList.toggle('dark', true)
+        },
+
+        //Run this method first
+        oninit() {
+          this.checkColorScheme()
+        }
+      }).mount()
+    </script>
+    <div class="hidden" id="content">
+      <div class="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+        <div class="relative py-3 sm:max-w-xl sm:mx-auto">
+          <div class="absolute inset-0 bg-gradient-to-r from-cyan-400 to-sky-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+          <div class="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+            <div class="max-w-md mx-auto">
+              <div>
+                <h1 class="text-3xl font-black leading-tight text-gray-900">
+                  Is It A Name?
+                </h1>
+              </div>
+              <div class="divide-y divide-gray-200">
+                <div class="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+                  <p>Test weather or not a string is a name...probably.</p>
+                  <ul class="list-disc space-y-2">
+                    <li class="flex items-start">
+                      <span class="h-6 flex items-center sm:h-7">
+                        <svg class="flex-shrink-0 h-5 w-5 text-cyan-500" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                        </svg>
+                      </span>
+                      <p class="ml-2">
+                        Uses 100 most common male and female, american names, over the past 20 years.
+                      </p>
+                    </li>
+                    <li class="flex items-start">
+                      <span class="h-6 flex items-center sm:h-7">
+                        <svg class="flex-shrink-0 h-5 w-5 text-cyan-500" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                        </svg>
+                      </span>
+                      <p class="ml-2">
+                        Tests for substrings of those common names corpus, to help with nicknames.
+                      </p>
+                    </li>
+                    <li class="flex items-start">
+                      <span class="h-6 flex items-center sm:h-7">
+                        <svg class="flex-shrink-0 h-5 w-5 text-cyan-500" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                        </svg>
+                      </span>
+                      <p class="ml-2">It isn't perfect, but it is open source. Feel free to <a href="" class="text-cyan-600 hover:text-cyan-700"> contribute </a>.</p>
+                    </li>
+                  </ul>
+                  <div class="space-y-2">
+                    <p>Test it out with the api: </p>
+                    <a href="/api/i?name=carl" class="hover:scale-110 inline-block transform cursor-pointer transition-transform duration-150"><code class="px-4 py-2 bg-blue-gray-800 text-cyan-300 text-xs rounded-md">https://is-it-a-name.netlify.app/i?name=carl</code></a>
+                  </div>
+                </div>
+                <div class="space-y-2 pt-4">
+                  <p>Test it out here: </p>
+                  <div class="flex w-full space-x-4">
+                    <input :value="name" @change="name = event.target.value" class="appearance-none px-4 py-1 shadow-lg rounded-md border ring-2 ring-transparent focus:outline-none focus:ring-cyan-600 flex-grow" placeholder="Harry Potter" />
+                    <div @click="checkName()" class="bg-cyan-600 ring-2 ring-cyan-600 text-white hover:text-cyan-600 hover:bg-white rounded-md shadow lg px-4 py-2 cursor-pointer font-bold transition-colors duration-150">Check</div>
+                  </div>
+                  <p v-if="nameResponse && nameResponse?.message">{{nameResponse?.message}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

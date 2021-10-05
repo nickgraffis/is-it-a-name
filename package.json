@@ -1,0 +1,34 @@
+{
+  "name": "is-it-a-name",
+  "version": "1.0.0",
+  "description": "API to check if a string is probably a name.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nickgraffis/is-it-a-name.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nickgraffis/is-it-a-name/issues"
+  },
+  "homepage": "https://github.com/nickgraffis/is-it-a-name#readme",
+  "devDependencies": {
+    "@types/node": "^16.10.2",
+    "@vitejs/plugin-vue": "^1.2.4",
+    "@vue/compiler-sfc": "^3.0.5",
+    "vite": "^2.4.0",
+    "vite-plugin-windicss": "^1.2.4"
+  },
+  "dependencies": {
+    "@netlify/functions": "^0.7.2",
+    "vue": "^3.0.5"
+  }
+}
