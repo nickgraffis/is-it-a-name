@@ -21,6 +21,6 @@ command = "npm run dev"
 
 [[headers]]
   # Define which paths this specific [[headers]] block will cover.
-  for = "/api/*"
+  for = "/*"
     [headers.values]
     Access-Control-Allow-Origin = "*"
