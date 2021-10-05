@@ -29,6 +29,11 @@ const handler: Handler = async (event, context) => {
       body: itsAName ? 
       JSON.stringify({ message: `Its probably a name!`, result: true }) :
       JSON.stringify({ message: `Its probably not a name!`, result: false }),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Methods": "GET, OPTION",
+      },
     }
   } catch (error) {
     return { statusCode: 500, body: error.toString() }
